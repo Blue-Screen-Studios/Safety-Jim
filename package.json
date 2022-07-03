@@ -4,7 +4,8 @@
   "description": "code for the moderation bot (Safety Jim) in the Blue Screen Studios Discord server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p .",
+    "start": "node dist/index.js"
   },
   "repository": {
     "type": "git",
