@@ -1,5 +1,6 @@
 import { config } from 'dotenv'
-import { Client, Intents } from 'discord.js'
+import { Client, Collection, Intents } from 'discord.js'
+import * as fs from 'fs'
 
 //Configure dotenv
 config()
@@ -14,3 +15,20 @@ const client = new Client({
 
 //Login client using Discord Token
 client.login(process.env.DISCORD_TOKEN)
+
+
+const eventFiles = fs.readdirSync("./src/events/").filter((file: string) => file.endsWith('.js'));
+
+for(const file of eventFiles)
+{
+    const event = require(`./events/${file}`);
+
+    if(event.once)
+    {
+        client.once(event.name, (...args) => event.exectue(...args, client));
+    }
+    else
+    {
+        client.on(event.name, (...args) => event.exectue(...args, client));
+    }
+}
