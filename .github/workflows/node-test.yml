@@ -1,4 +1,4 @@
-name: tests
+name: node-test
 on: [push]
 jobs:
   build:
