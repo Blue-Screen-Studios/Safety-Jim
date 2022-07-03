@@ -1,0 +1,23 @@
+{
+  "name": "safety-jim",
+  "version": "1.0.0",
+  "description": "code for the moderation bot (Safety Jim) in the Blue Screen Studios Discord server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blue-Screen-Studios/Safety-Jim.git"
+  },
+  "author": "IBXCODECAT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blue-Screen-Studios/Safety-Jim/issues"
+  },
+  "homepage": "https://github.com/Blue-Screen-Studios/Safety-Jim#readme",
+  "dependencies": {
+    "discord.js": "^13.8.1",
+    "dotenv": "^16.0.1"
+  }
+}
