@@ -17,7 +17,7 @@ const client = new Client({
 client.login(process.env.DISCORD_TOKEN)
 
 
-const eventFiles = fs.readdirSync("./src/events/").filter((file: string) => file.endsWith('.js'));
+const eventFiles = fs.readdirSync("./src/events/").filter((file: string) => file.endsWith('.ts'));
 
 for(const file of eventFiles)
 {
