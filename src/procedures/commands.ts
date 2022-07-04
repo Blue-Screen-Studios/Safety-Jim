@@ -7,7 +7,7 @@ export async function RegisterCommands(client: Client)
     
     let commands;
 
-    console.log( `Registering Commands in the ` + guild?.name + ` server!`);
+    console.log( `Registering Commands in the ${guild?.name} server!`);
 
     if(guild) commands = guild.commands;
     else commands = client.application?.commands;
