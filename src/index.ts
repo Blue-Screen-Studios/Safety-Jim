@@ -33,7 +33,8 @@ for(const file of eventFiles)
     }
     else
     {
-        client.on(event.name, (...args) => event.exectue(...args, client));
+        if(event.isasync) client.on(event.name, async (...args) => await event.exectue(...args, client));
+        else client.on(event.name, (...args) => event.exectue(...args, client));
     }
 }
 

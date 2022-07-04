@@ -3,6 +3,7 @@ import { Client, Message } from "discord.js";
 export = {
     name: 'message',
     once: false,
+    isasync: false,
 
     execute(message: Message, client: Client)
     {

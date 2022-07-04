@@ -2,7 +2,8 @@ import { Client, Interaction } from "discord.js";
 
 export = {
     name: 'interactionCreate',
-    once: true,
+    once: false,
+    isasync: true,
 
     execute(interaction: Interaction, client: Client)
     {
