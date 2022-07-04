@@ -4,7 +4,7 @@ module.exports = {
     name: 'message',
     once: false,
 
-    execute(message: Message, client: Client)
+    execute(message, client)
     {
         if(message.author.bot) return;
         if(message.channel.type == 'DM') return;

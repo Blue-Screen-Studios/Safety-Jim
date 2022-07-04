@@ -4,7 +4,7 @@ module.exports = {
     name: 'interactionCreate',
     once: true,
 
-    execute(interaction: Interaction, client: Client)
+    execute(interaction, client)
     {
         if(interaction.isCommand())
         {
