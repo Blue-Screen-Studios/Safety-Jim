@@ -1,6 +1,8 @@
 import { config } from 'dotenv'
-import { Client, Collection, Intents } from 'discord.js'
+import { Client, Collection, CommandInteractionOptionResolver, Intents } from 'discord.js'
 import * as fs from 'fs'
+
+declare function require(name:string): any;
 
 //Configure dotenv
 config()
@@ -17,11 +19,13 @@ const client = new Client({
 client.login(process.env.DISCORD_TOKEN)
 
 
-const eventFiles = fs.readdirSync("./src/events/").filter((file: string) => file.endsWith('.js'));
+const eventFiles = fs.readdirSync("./src/events/").filter((file: string) => file.endsWith('.ts'));
 
 for(const file of eventFiles)
 {
-    const event = require(`./events/${file}`);
+    const module: string = file.substring(0, file.length - 3);
+
+    const event = require(`./events/${module}`);
 
     if(event.once)
     {
@@ -32,3 +36,5 @@ for(const file of eventFiles)
         client.on(event.name, (...args) => event.exectue(...args, client));
     }
 }
+
+//====================================================================================================
