@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
+    "dev": "nodemon src/index.ts",
     "start": "node dist/index.js"
   },
   "repository": {
@@ -19,7 +20,9 @@
   "homepage": "https://github.com/Blue-Screen-Studios/Safety-Jim#readme",
   "dependencies": {
     "discord.js": "^13.8.1",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "nodemon": "^2.0.18",
+    "ts-node": "^10.8.2"
   },
   "devDependencies": {
     "typescript": "^4.7.4"
