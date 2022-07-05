@@ -1,6 +1,7 @@
 import { config } from 'dotenv'
 import { Client, Collection, CommandInteractionOptionResolver, Intents } from 'discord.js'
 import * as fs from 'fs'
+import { FgBlue, FgCyan, FgMagenta, FgYellow } from './resources/messageFormatCodes'
 
 declare function require(name:string): any;
 
@@ -27,17 +28,16 @@ for(const file of eventFiles)
 
     const event = require(`./events/${module}`);
 
-    console.log(event);
-    console.log(`Function: ` + event.exectue);
+    console.log(FgCyan + `Loaded event module: ${event.name}`);
 
     if(event.once)
     {
-        client.once(event.name, (...args) => event.exectue(client, ...args));
+        client.once(event.name, (...args) => event.execute(client, ...args));
     }
     else
     {
-        if(event.isasync) client.on(event.name, async (...args) => await event.exectue(client, ...args));
-        else client.on(event.name, (...args) => event.exectue(client, ...args));
+        if(event.isasync) client.on(event.name, async (...args) => await event.execute(client, ...args));
+        else client.on(event.name, (...args) => event.execute(client, ...args));
     }
 }
 

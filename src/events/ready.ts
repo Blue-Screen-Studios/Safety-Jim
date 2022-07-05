@@ -6,7 +6,7 @@ export = {
     once: true,
     isasync: false,
 
-    exectue(client: Client)
+    execute(client: Client)
     {
         RegisterCommands(client);
     }
