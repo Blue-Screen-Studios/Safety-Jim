@@ -5,7 +5,7 @@ export = {
     once: false,
     isasync: false,
 
-    execute(message: Message, client: Client)
+    execute(client: Client, message: Message)
     {
         if(message.author.bot) return;
         if(message.channel.type == 'DM') return;

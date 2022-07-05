@@ -1,32 +1,13 @@
 import { Client, Interaction } from "discord.js";
+import { HandleCommands } from "../procedures/commands";
 
 export = {
     name: 'interactionCreate',
     once: false,
     isasync: true,
 
-    execute(interaction: Interaction, client: Client)
+    async execute(client: Client, interaction: Interaction)
     {
-        //Command Handling...
-        if(interaction.isCommand())
-        {
-            const { commandName, options } = interaction;
-
-            console.log("Hello")
-            switch(commandName)
-            {
-                case "":
-                    interaction.reply({
-                        content: "",
-                        ephemeral: true
-                    })
-                    break;
-                default:
-                    interaction.reply({
-                        content: "This command does not execute any code...",
-                        ephemeral: true
-                    })
-            }
-        }
+        await HandleCommands(client, interaction);
     }
 }

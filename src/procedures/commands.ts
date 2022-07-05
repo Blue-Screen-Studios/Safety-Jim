@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Client, Interaction } from "discord.js";
 
 export async function RegisterCommands(client: Client)
 {
@@ -18,3 +18,27 @@ export async function RegisterCommands(client: Client)
     })
 }
 
+export async function HandleCommands(client: Client, interaction: Interaction)
+{
+        //Command Handling...
+        if(interaction.isCommand())
+        {
+            const { commandName, options } = interaction;
+
+            console.log("Hello")
+            switch(commandName)
+            {
+                case "":
+                    await interaction.reply({
+                        content: "",
+                        ephemeral: true
+                    })
+                    break;
+                default:
+                    await interaction.reply({
+                        content: "This command does not execute any code...",
+                        ephemeral: true
+                    })
+            }
+        }
+}

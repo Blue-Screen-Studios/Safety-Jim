@@ -27,14 +27,17 @@ for(const file of eventFiles)
 
     const event = require(`./events/${module}`);
 
+    console.log(event);
+    console.log(`Function: ` + event.exectue);
+
     if(event.once)
     {
-        client.once(event.name, (...args) => event.exectue(...args, client));
+        client.once(event.name, (...args) => event.exectue(client, ...args));
     }
     else
     {
-        if(event.isasync) client.on(event.name, async (...args) => await event.exectue(...args, client));
-        else client.on(event.name, (...args) => event.exectue(...args, client));
+        if(event.isasync) client.on(event.name, async (...args) => await event.exectue(client, ...args));
+        else client.on(event.name, (...args) => event.exectue(client, ...args));
     }
 }
 
