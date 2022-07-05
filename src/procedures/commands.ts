@@ -1,4 +1,5 @@
 import { Client, Interaction } from "discord.js";
+import { FgYellow } from "../resources/messageFormatCodes";
 
 export async function RegisterCommands(client: Client)
 {
@@ -7,14 +8,14 @@ export async function RegisterCommands(client: Client)
     
     let commands;
 
-    console.log( `Registering Commands in the ${guild?.name} server!`);
+    console.log(FgYellow + `Registering Commands in the ${guild?.name} GUILD!`);
 
     if(guild) commands = guild.commands;
     else commands = client.application?.commands;
 
-    commands?.create({
-        name: "test",
-        description: "a basic command to test our bot"
+    await commands?.create({
+        name: "support",
+        description: "provides an invite link to the Blue Screen Studios server"
     })
 }
 
@@ -25,18 +26,17 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         {
             const { commandName, options } = interaction;
 
-            console.log("Hello")
             switch(commandName)
             {
-                case "":
+                case "help":
                     await interaction.reply({
-                        content: "",
+                        content: "message",
                         ephemeral: true
                     })
                     break;
                 default:
                     await interaction.reply({
-                        content: "This command does not execute any code...",
+                        content: "This command is depricated and no longer has functionality...",
                         ephemeral: true
                     })
             }

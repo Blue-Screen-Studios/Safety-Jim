@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 
 export = {
-    name: 'message',
+    name: 'messageCreate',
     once: false,
     isasync: false,
 
