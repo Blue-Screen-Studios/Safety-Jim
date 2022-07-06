@@ -1,5 +1,5 @@
 import { Client } from 'discord.js'
-import { RegisterCommands } from './../procedures/commands'
+import { RegisterCommands } from '../components/commands'
 
 export = {
     name: 'ready',

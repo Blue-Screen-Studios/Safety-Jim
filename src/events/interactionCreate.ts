@@ -1,5 +1,5 @@
 import { Client, Interaction } from "discord.js";
-import { HandleCommands } from "../procedures/commands";
+import { HandleCommands } from "../components/commands";
 
 export = {
     name: 'interactionCreate',

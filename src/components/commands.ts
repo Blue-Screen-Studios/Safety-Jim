@@ -1,5 +1,5 @@
 import { Client, Constants, Interaction } from "discord.js";
-import { FgCyan, FgGreen, FgYellow } from "../resources/messageFormatCodes";
+import { FgCyan, FgGreen, FgWhite, FgYellow } from "../resources/messageFormatCodes";
 import * as fs from 'fs';
 
 export async function RegisterCommands(client: Client)
@@ -29,11 +29,14 @@ export async function RegisterCommands(client: Client)
         const module: string = file.substring(0, file.length - 3);
         const m_command = require(`${commandDefsPath}${module}`);
 
-        console.log(FgCyan + `Loaded command module: ${m_command.name}`);
+        console.log(FgCyan + `Loaded command module: ${m_command.name}` + FgWhite);
         
+        console.log(m_command);
+
         await commands?.create({
             name: m_command.name,
-            description: m_command.description
+            description: m_command.description,
+            options: m_command.options,
         })
     }
 
