@@ -1,4 +1,4 @@
-import { Client, Constants, Interaction } from "discord.js";
+import { Client, Constants, Interaction, User } from "discord.js";
 import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "../resources/messageFormatCodes";
 import * as fs from 'fs';
 
@@ -61,10 +61,10 @@ export async function HandleCommands(client: Client, interaction: Interaction)
 
         console.log(m_command.procedure);
 
-        const procedure = m_command.procedure;
+        const procedureName = m_command.procedure;
         
         //Does this command have a procedure in it's definition?
-        if(procedure == undefined || procedure == null)
+        if(procedureName == undefined || procedureName == null)
         {
             console.log(`${FgRed}ERROR_NULL_PROCEDURE${FgWhite}`);
 
@@ -75,9 +75,14 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         }
         else
         {
-            if(procedures.includes(`${procedure}.ts`))
+            if(procedures.includes(`${procedureName}.ts`))
             {
-                console.log("Procedure exists!");
+                const procedureDefPath = `${proceduresPath}${procedureName}`;
+                console.log(procedureDefPath);
+    
+                const procedure = require(procedureDefPath);
+
+                await procedure.Run(client, interaction);
             }
             else
             {
