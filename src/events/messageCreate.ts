@@ -9,7 +9,6 @@ export = {
     {
         if(message.author.bot) return;
         if(message.channel.type == 'DM') return;
-        //if(!message.content.startsWith(client.cmdPrefix)) return;
 
         console.log(`A message was sent: ${message}`);
     }
