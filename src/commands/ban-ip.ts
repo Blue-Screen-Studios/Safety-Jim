@@ -7,7 +7,14 @@ export = {
         {
             name: "user",
             description: "The user I should ban!",
-            type: Constants.ApplicationCommandOptionTypes.USER
+            type: Constants.ApplicationCommandOptionTypes.USER,
+            required: true
+        },
+        {
+            name: "reason",
+            description: "Why am I banning this user?",
+            type: Constants.ApplicationCommandOptionTypes.STRING,
+            required: false
         }
     ],
     procedure: "ban"
