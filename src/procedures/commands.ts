@@ -1,6 +1,6 @@
 import { Client, Constants, Interaction } from "discord.js";
-import { decodedTextSpanIntersectsWith } from "typescript";
-import { FgYellow } from "../resources/messageFormatCodes";
+import { FgCyan, FgGreen, FgYellow } from "../resources/messageFormatCodes";
+import * as fs from 'fs';
 
 export async function RegisterCommands(client: Client)
 {
@@ -15,27 +15,22 @@ export async function RegisterCommands(client: Client)
     if(guild) commands = guild.commands;
     else commands = client.application?.commands;
 
-    await commands?.create({
-        name: "contribute",
-        description: "I will reply with a link to my open source repository on GitHub!"
-    })
+    const commandFiles = fs.readdirSync(__dirname + "/../commands/").filter((file: string) => file.endsWith('.ts'));
 
-    await commands?.create({
-        name: "support",
-        description: "I will reply with a link you can use to join our support server!"
-    })
+    for(const file of commandFiles)
+    {
+        const module: string = file.substring(0, file.length - 3);
+        const m_command = require(`./../commands/${module}`);
 
-    await commands?.create({
-        name: "help",
-        description: "I will reply with a list of commands and thier use."
-    })
+        console.log(FgCyan + `Loaded command module: ${m_command.name}`);
+        
+        await commands?.create({
+            name: m_command.name,
+            description: m_command.description
+        })
+    }
 
-    await commands?.create({
-        name: "invite",
-        description: "I will reply with a link you can use to add me to your server!"
-    })
-
-    
+    console.log(FgGreen + "Commands registered!");
 }
 
 export async function HandleCommands(client: Client, interaction: Interaction)
