@@ -1,4 +1,5 @@
 export = {
     name: "help",
-    description: "I will reply with a list of commands and thier use!"
+    description: "I will reply with a list of commands and thier use!",
+    procedure: null
 }
