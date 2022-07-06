@@ -6,4 +6,5 @@
 
 - **name** - this is the name of the command in the commands list
 - **description** - this is the description of the command in the commands list
-- **procedure** - Here you can provide a name of a moudle containing a "run" function to run this command, this module must be in the `./src/procedures` directory. If you do not want to run a procedure for this command you may leave the procedure proprety as `null`.
+- **options** - this is where you provide an array of objects contianing the data required to register an object with the Discord API 
+- **procedure** - this is where you provide a name of a moudle in the `./src/procedures` directory containing a "run" function. This function will be called by the command handler at `./src/components/commands.ts` 

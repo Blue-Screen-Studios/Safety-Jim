@@ -1,6 +1,6 @@
-import { Client, User } from "discord.js";
+import { Client, Interaction, User } from "discord.js";
 
-export async function BanIP(client: Client, user: User)
+export async function Run(client: Client, interaction: Interaction, user: User)
 {
     
 }

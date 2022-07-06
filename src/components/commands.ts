@@ -1,13 +1,20 @@
 import { Client, Constants, Interaction } from "discord.js";
-import { FgCyan, FgGreen, FgWhite, FgYellow } from "../resources/messageFormatCodes";
+import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "../resources/messageFormatCodes";
 import * as fs from 'fs';
+
+//This is the path to the command definitions & procedures directories
+const commandDefsPath = './../commands/'
+const proceduresPath = './../procedures/'
+
+//Fetch a list of command definitions in our command definitions directory
+const commandDefs = fs.readdirSync(__dirname + commandDefsPath).filter((file: string) => file.endsWith('.ts'));
+const procedures = fs.readdirSync(__dirname + proceduresPath).filter((file: string) => file.endsWith('.ts'));
 
 export async function RegisterCommands(client: Client)
 {
     //Leave guildID empty to register commands across all servers (this process can take about 2 hours)
     const guildID = '913885055598886922'; //BSS = 888875214459535360 | Staff = 913885055598886922
     const guild = client.guilds.cache.get(guildID); //Get the guild to register our commands in from our clients cache of joined guilds
-    const commandDefsPath = './../commands/' //This is the path to the command definitions directory
     let commands; //Create our commands object to hold our command data
 
     if(guild) 
@@ -19,9 +26,6 @@ export async function RegisterCommands(client: Client)
     {
         commands = client.application?.commands;
     }
-
-    //Fetch a list of command definitions in our command definitions directory
-    const commandDefs = fs.readdirSync(__dirname + commandDefsPath).filter((file: string) => file.endsWith('.ts'));
 
     //For each command file, load the module and create the commands using the propreties defined in the command definition
     for(const file of commandDefs)
@@ -45,10 +49,47 @@ export async function RegisterCommands(client: Client)
 
 export async function HandleCommands(client: Client, interaction: Interaction)
 {
-    //Command Handling...
     if(interaction.isCommand())
     {
         const { commandName, options } = interaction;
+        console.log("COMMAND NAME: " + commandName);
+        const commandDefPath = `${commandDefsPath}${commandName}`;
+
+        const m_command = require(commandDefPath);
+        
+        console.log(`${FgYellow}Running command at path: ${FgCyan}${commandDefPath}${FgYellow} using procedure ${FgCyan}${m_command.procedure}${FgWhite}`);
+
+        console.log(m_command.procedure);
+
+        const procedure = m_command.procedure;
+        
+        //Does this command have a procedure in it's definition?
+        if(procedure == undefined || procedure == null)
+        {
+            console.log(`${FgRed}ERROR_NULL_PROCEDURE${FgWhite}`);
+
+            interaction.reply({
+                content: "```diff\n- ERROR: This command does not run a procedure!\n```",
+                ephemeral: true
+            })
+        }
+        else
+        {
+            if(procedures.includes(`${procedure}.ts`))
+            {
+                console.log("Procedure exists!");
+            }
+            else
+            {
+                console.log("Procedure does not exist!");
+            }
+        }
+    }
+
+    /*
+    //Command Handling...
+    if(interaction.isCommand())
+    {
 
         switch(commandName)
         {
@@ -83,5 +124,6 @@ export async function HandleCommands(client: Client, interaction: Interaction)
                 })
                 break;
         }
-    }
+        
+    }*/
 }
