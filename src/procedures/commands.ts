@@ -6,21 +6,28 @@ export async function RegisterCommands(client: Client)
 {
     //Leave guildID empty to register commands across all servers (this process can take about 2 hours)
     const guildID = '913885055598886922'; //BSS = 888875214459535360 | Staff = 913885055598886922
-    const guild = client.guilds.cache.get(guildID);
-    
-    let commands;
+    const guild = client.guilds.cache.get(guildID); //Get the guild to register our commands in from our clients cache of joined guilds
+    const commandDefsPath = './../commands/' //This is the path to the command definitions directory
+    let commands; //Create our commands object to hold our command data
 
-    console.log(FgYellow + `Registering Commands in the ${guild?.name} GUILD!`);
+    if(guild) 
+    {
+        commands = guild.commands;
+        console.log(FgYellow + `Registering Commands in the ${guild?.name} GUILD!`);
+    } 
+    else
+    {
+        commands = client.application?.commands;
+    }
 
-    if(guild) commands = guild.commands;
-    else commands = client.application?.commands;
+    //Fetch a list of command definitions in our command definitions directory
+    const commandDefs = fs.readdirSync(__dirname + commandDefsPath).filter((file: string) => file.endsWith('.ts'));
 
-    const commandFiles = fs.readdirSync(__dirname + "/../commands/").filter((file: string) => file.endsWith('.ts'));
-
-    for(const file of commandFiles)
+    //For each command file, load the module and create the commands using the propreties defined in the command definition
+    for(const file of commandDefs)
     {
         const module: string = file.substring(0, file.length - 3);
-        const m_command = require(`./../commands/${module}`);
+        const m_command = require(`${commandDefsPath}${module}`);
 
         console.log(FgCyan + `Loaded command module: ${m_command.name}`);
         
