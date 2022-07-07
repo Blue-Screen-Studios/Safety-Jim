@@ -39,13 +39,13 @@ export async function Run(client: Client, interaction: Interaction)
 
                 await interaction.editReply({
                     content: `I have banned ${user.username} from ${guild.name}! Reason: ${banReason}`
-                })
+                });
             }
             catch
             {
                 await interaction.editReply({
                     content: "I do not have permission to do that... :(\nRequired Permissions: `BAN_MEMBERS`\nRequired Role Heirchy Level: `Above Target Mentionable`"
-                })
+                });
             }
         }
     }
