@@ -2,13 +2,16 @@ import { Client, Constants, Interaction, User } from "discord.js";
 import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "../resources/messageFormatCodes";
 import * as fs from 'fs';
 
+//The extension to use when searching the file system (ts for ts-node, js for js-node)
+const fileExtension = '.ts';
+
 //This is the path to the command definitions & procedures directories
 const commandDefsPath = './../commands/'
 const proceduresPath = './../procedures/'
 
 //Fetch a list of command definitions in our command definitions directory
-const commandDefs = fs.readdirSync(__dirname + commandDefsPath).filter((file: string) => file.endsWith('.ts'));
-const procedures = fs.readdirSync(__dirname + proceduresPath).filter((file: string) => file.endsWith('.ts'));
+const commandDefs = fs.readdirSync(__dirname + commandDefsPath).filter((file: string) => file.endsWith(fileExtension));
+const procedures = fs.readdirSync(__dirname + proceduresPath).filter((file: string) => file.endsWith(fileExtension));
 
 export async function RegisterCommands(client: Client)
 {
@@ -75,7 +78,9 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         }
         else
         {
-            if(procedures.includes(`${procedureName}.ts`))
+            console.log(procedures);
+
+            if(procedures.includes(`${procedureName}${fileExtension}`))
             {
                 const procedureDefPath = `${proceduresPath}${procedureName}`;
                 console.log(procedureDefPath);
