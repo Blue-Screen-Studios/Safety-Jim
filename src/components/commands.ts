@@ -70,10 +70,10 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         {
             console.log(`${FgRed}ERROR_NULL_PROCEDURE${FgWhite}`);
 
-            interaction.reply({
-                content: "```diff\n- ERROR: This command does not run a procedure!\n```",
-                ephemeral: true
-            })
+            const procedureDefPath = `${proceduresPath}missingproc`;
+            const procedure = require(procedureDefPath);
+
+            await procedure.Run(client, interaction);
         }
         else
         {
@@ -90,7 +90,10 @@ export async function HandleCommands(client: Client, interaction: Interaction)
             }
             else
             {
-                console.log("Procedure does not exist!");
+                const procedureDefPath = `${proceduresPath}missingproc`;
+                const procedure = require(procedureDefPath);
+
+                await procedure.Run(client, interaction);
             }
         }
     }

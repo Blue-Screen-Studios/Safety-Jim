@@ -1,5 +1,4 @@
 import { Client, Guild, GuildMember, Interaction, Permissions, User } from "discord.js";
-import { createImmediatelyInvokedArrowFunction } from "typescript";
 
 export async function Run(client: Client, interaction: Interaction)
 {
