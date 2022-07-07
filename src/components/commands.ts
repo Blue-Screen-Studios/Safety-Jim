@@ -1,6 +1,7 @@
-import { Client, Constants, Interaction, User } from "discord.js";
-import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "../resources/messageFormatCodes";
+import { Client, Interaction, User } from "discord.js";
+import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "./messageFormatCodes";
 import * as fs from 'fs';
+import { CommandDefinition } from "../interfaces/CommandDefinition";
 
 //The extension to use when searching the file system (ts for ts-node, js for js-node)
 const fileExtension = '.ts';
@@ -34,7 +35,7 @@ export async function RegisterCommands(client: Client)
     for(const file of commandDefs)
     {
         const module: string = file.substring(0, file.length - 3);
-        const m_command = require(`${commandDefsPath}${module}`);
+        const m_command: CommandDefinition = require(`${commandDefsPath}${module}`);
 
         console.log(FgCyan + `Loaded command module: ${m_command.name}` + FgWhite);
         
@@ -58,11 +59,9 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         console.log("COMMAND NAME: " + commandName);
         const commandDefPath = `${commandDefsPath}${commandName}`;
 
-        const m_command = require(commandDefPath);
+        const m_command: CommandDefinition = require(commandDefPath);
         
         console.log(`${FgYellow}Running command at path: ${FgCyan}${commandDefPath}${FgYellow} using procedure ${FgCyan}${m_command.procedure}${FgWhite}`);
-
-        console.log(m_command.procedure);
 
         const procedureName = m_command.procedure;
         

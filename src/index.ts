@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import { Client, Collection, CommandInteractionOptionResolver, Intents } from 'discord.js'
 import * as fs from 'fs'
-import { FgBlue, FgCyan, FgMagenta, FgYellow } from './resources/messageFormatCodes'
+import { FgBlue, FgCyan, FgMagenta, FgYellow } from './components/messageFormatCodes'
 
 declare function require(name:string): any;
 
