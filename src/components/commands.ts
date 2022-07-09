@@ -55,9 +55,10 @@ export async function RegisterCommands(client: Client)
 
 export async function HandleCommands(client: Client, interaction: Interaction)
 {
+    //Is our interaction a command?
     if(interaction.isCommand())
     {
-        const { commandName, options } = interaction;
+        const { commandName } = interaction;
         console.log("COMMAND NAME: " + commandName);
         const commandDefPath = `${commandDefsPath}${commandName}`;
 
@@ -67,92 +68,65 @@ export async function HandleCommands(client: Client, interaction: Interaction)
 
         const procedureName = m_command.procedure;
         
-        //Does this command have a procedure in it's definition?
+        //Does this command have a procedure in it's definition? If not, attempt to reply with an error and return...
         if(procedureName == undefined || procedureName == null)
         {
-            console.log(`${FgRed}ERROR_NULL_PROCEDURE${FgWhite}`);
-
-            const procedureDefPath = `${proceduresPath}missingproc`;
-            const procedure = require(procedureDefPath);
-
-            await procedure.Run(client, interaction);
+            try
+            {
+                interaction.reply({
+                    content: toErrorBlock("No procedure was found in the command definition!"),
+                    ephemeral: true
+                })
+            }
+            catch {} finally { return; }
         }
-        else
+
+        //Do we have procedure definiton for this command? If not, attempt to reply with an error and return...
+        if(!procedures.includes(`${procedureName}${fileExtension}`))
         {
-            console.log(procedures);
-
-            if(interaction.channel?.type! != "GUILD_TEXT")
-            {
-                if(!m_command.allowOutsideGuildText)
-                {
-                    try
-                    {
-                        interaction.reply({
-                            content: toErrorBlock("This command is disallowed in this channel type!"),
-                            ephemeral: true
-                        })
-                    }
-                    catch {} finally { return; }
-                }
-            }
-
-            if(procedures.includes(`${procedureName}${fileExtension}`))
-            {
-                const procedureDefPath = `${proceduresPath}${procedureName}`;
-                console.log(procedureDefPath);
-    
-                const procedure = require(procedureDefPath);
-
-                await procedure.Run(client, interaction);
-            }
-            else
+            try
             {
                 interaction.reply({
                     content: toErrorBlock("No matching procedure could be found for this command!"),
                     ephemeral: true
                 })
             }
+            catch { logCommandInteractionFailed() } finally { return; }
         }
-    }
 
-    /*
-    //Command Handling...
-    if(interaction.isCommand())
-    {
-
-        switch(commandName)
+        //If this command is being run outside a text channel, does this command support that? If not, attempt to reply with an error and return...
+        if(interaction.channel?.type! != "GUILD_TEXT")
         {
-            case "contribute":
-                await interaction.reply({
-                    content: "Here is a link to my open source GitHub repository: https://github.com/blue-screen-studios/safety-jim",
-                    ephemeral: true
-                })
-                break;
-            case "help":
-                await interaction.reply({
-                    content: "help message",
-                    ephemeral: true
-                })
-                break;
-            case "invite":
-                await interaction.reply({
-                    content: "You can invite me to your server with the following link:",
-                    ephemeral: true
-                })
-                break;
-            case "support":
-                await interaction.reply({
-                    content: "Here is a link to my bot support server: https://discord.gg/WvbCRGSKre",
-                    ephemeral: true
-                })
-                break;
-            default:
-                await interaction.reply({
-                    content: "This command is depricated and no longer has functionality...",
-                    ephemeral: true
-                })
-                break;
+            if(!m_command.allowOutsideGuildText)
+            {
+                try
+                {
+                    interaction.reply({
+                        content: toErrorBlock("This command is disallowed in this channel type!"),
+                        ephemeral: true
+                    })
+                }
+                catch { logCommandInteractionFailed() } finally { return; }
+            }
         }
         
-    }*/
+        //Now we can start loading the procedure and executing it...
+
+        const procedureDefPath = `${proceduresPath}${procedureName}`;
+        console.log(procedureDefPath);
+
+        const procedure = require(procedureDefPath);
+
+        try
+        {
+            await procedure.Run(client, interaction);
+        } catch { logCommandInteractionFailed() }
+    }
+
+    //========================================================================
+    
+    function logCommandInteractionFailed()
+    {
+        console.log(`${FgRed}Command Interaction Response Failed!${FgWhite}`);
+    }
 }
