@@ -1,7 +1,9 @@
-import { Client, Interaction, User } from "discord.js";
-import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "./messageFormatCodes";
+import { Client, Interaction } from "discord.js";
+import { FgCyan, FgGreen, FgRed, FgWhite, FgYellow } from "./consoleMessageFormatting";
 import * as fs from 'fs';
 import { CommandDefinition } from "../interfaces/CommandDefinition";
+import { ChannelTypes } from "discord.js/typings/enums";
+import { toErrorBlock } from "./messageFormatting";
 
 //The extension to use when searching the file system (ts for ts-node, js for js-node)
 const fileExtension = '.ts';
@@ -79,6 +81,21 @@ export async function HandleCommands(client: Client, interaction: Interaction)
         {
             console.log(procedures);
 
+            if(interaction.channel?.type! != "GUILD_TEXT")
+            {
+                if(!m_command.allowOutsideGuildText)
+                {
+                    try
+                    {
+                        interaction.reply({
+                            content: toErrorBlock("This command is disallowed in this channel type!"),
+                            ephemeral: true
+                        })
+                    }
+                    catch {} finally { return; }
+                }
+            }
+
             if(procedures.includes(`${procedureName}${fileExtension}`))
             {
                 const procedureDefPath = `${proceduresPath}${procedureName}`;
@@ -90,10 +107,10 @@ export async function HandleCommands(client: Client, interaction: Interaction)
             }
             else
             {
-                const procedureDefPath = `${proceduresPath}missingproc`;
-                const procedure = require(procedureDefPath);
-
-                await procedure.Run(client, interaction);
+                interaction.reply({
+                    content: toErrorBlock("No matching procedure could be found for this command!"),
+                    ephemeral: true
+                })
             }
         }
     }

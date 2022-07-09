@@ -17,5 +17,6 @@ export = {
             required: true
         }
     ],
-    procedure: "say"
+    procedure: "say",
+    allowOutsideGuildText: false
 }

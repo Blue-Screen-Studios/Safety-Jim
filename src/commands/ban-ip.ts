@@ -17,5 +17,6 @@ export = {
             required: false
         }
     ],
-    procedure: "ban"
+    procedure: "ban",
+    allowOutsideGuildText: false
 }

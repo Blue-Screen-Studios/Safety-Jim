@@ -6,4 +6,5 @@ export interface CommandDefinition
     description: string;
     options: any;
     procedure: string;
+    allowOutsideGuildText: boolean;
 }
