@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Blue-Screen-Studios/Safety-Jim#readme",
   "dependencies": {
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.0.2",
     "dotenv": "^16.0.1",
     "i": "^0.3.7",
     "nodemon": "^2.0.19",
